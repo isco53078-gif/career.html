@@ -3,85 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Career Unlocker | IscoTech</title>
+    <title>Premium Career Analyzer | IscoTech Academy</title>
     <style>
         :root { --navy: #000814; --gold: #ffc300; --mpesa: #28a745; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; }
-        .header { background: var(--navy); color: white; padding: 40px 20px; text-align: center; border-bottom: 5px solid var(--gold); }
-        .card { background: white; max-width: 450px; margin: -30px auto 20px; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
-        input, select { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #ddd; border-radius: 12px; font-size: 16px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 18px; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; font-size: 1.1em; }
-        #paySection { display: none; }
-        .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--mpesa); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; display: none; margin: 10px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; }
+        .header { background: var(--navy); color: white; padding: 40px 15px; text-align: center; border-bottom: 5px solid var(--gold); }
+        .container { max-width: 600px; margin: -30px auto 50px; padding: 0 15px; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+        h4 { margin: 20px 0 10px 0; color: var(--navy); border-bottom: 2px solid var(--gold); display: inline-block; }
+        input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        
+        .btn { width: 100%; padding: 18px; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; font-size: 1.1em; margin-top: 25px; }
+        #paymentGate { display: none; text-align: center; }
+        .mpesa-card { background: #f0fff4; border: 2px dashed var(--mpesa); padding: 20px; border-radius: 15px; margin: 20px 0; }
     </style>
 </head>
 <body>
 
 <div class="header">
     <h1>IscoTech Career AI</h1>
-    <p>Premium Placement System 2026</p>
+    <p>Professional KCSE Grade Analysis & Placement</p>
 </div>
 
-<div class="container" style="padding: 0 15px;">
-    <div class="card" id="inputSection">
-        <h3>1. Enter Results</h3>
-        <input type="text" id="name" placeholder="Full Student Name">
-        <select id="grade">
-            <option value="">Select Mean Grade</option>
-            <option value="Degree">C+ to A</option>
-            <option value="Diploma">C to C-</option>
-            <option value="Cert">D+ to D</option>
-            <option value="Artisan">E</option>
-        </select>
-        <button class="btn" style="background:var(--navy); color:white;" onclick="toPay()">Generate Report</button>
-    </div>
-
-    <div class="card" id="paySection">
-        <h3 style="color:var(--mpesa)">🔒 Report Locked</h3>
-        <p>A fee of <b>100/-</b> is required to unlock the results for <b id="uName"></b>.</p>
+<div class="container">
+    <div class="card" id="formScreen">
+        <h3>1. Student Bio</h3>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="text" id="index" placeholder="Index Number (11 Digits)">
         
-        <div style="background:#f0fff4; border:2px dashed var(--mpesa); padding:15px; border-radius:15px; margin:15px 0;">
-            <p style="margin:0;">Send 100/- to M-PESA:<br>
-            <b style="font-size:1.4em;">0746939408</b></p>
+        <h4>2. Core Subjects</h4>
+        <div class="grid">
+            <div><label>Maths</label><select id="mth"><option>A</option><option>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>C-</option><option>D+</option><option>D</option><option>D-</option><option>E</option></select></div>
+            <div><label>English</label><select id="eng"><option>A</option><option>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>C-</option><option>D+</option><option>D</option><option>D-</option><option>E</option></select></div>
+            <div><label>Kiswahili</label><select id="kis"><option>A</option><option>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>C-</option><option>D+</option><option>D</option><option>D-</option><option>E</option></select></div>
+            <div><label>MEAN GRADE</label><select id="mean" style="background:#fff9c4; font-weight:bold;"><option>A</option><option>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>C-</option><option>D+</option><option>D</option><option>D-</option><option>E</option></select></div>
         </div>
 
-        <input type="text" id="mCode" placeholder="Paste M-PESA Message Here" required>
-        <div id="loading" class="loader"></div>
-        <button class="btn" style="background:var(--mpesa); color:white;" onclick="verify()">Verify & Unlock Results</button>
+        <h4>3. Sciences & Electives</h4>
+        <div class="grid">
+            <input type="text" id="bio" placeholder="Biology Grade">
+            <input type="text" id="chem" placeholder="Chem/Physics Grade">
+            <input type="text" id="hist" placeholder="History/Geo Grade">
+            <input type="text" id="cre" placeholder="CRE/IRE Grade">
+            <input type="text" id="agri" placeholder="Agri/Business Grade">
+            <input type="text" id="other" placeholder="Subject 8 (Optional)">
+        </div>
+
+        <button class="btn" style="background:var(--navy); color:white;" onclick="toPayment()">Analyze My Future</button>
+    </div>
+
+    <div class="card" id="paymentGate">
+        <h3 style="color:#d32f2f;">🔒 PLACEMENT ANALYSIS LOCKED</h3>
+        <p>Comprehensive career mapping for <b><span id="displayUser"></span></b> has been generated based on the provided 8 subjects.</p>
+        
+        <div class="mpesa-card">
+            <p>To unlock the Report & University List, pay <b>100/-</b> to:<br>
+            <b style="font-size:1.5em; color:var(--mpesa);">0746939408</b><br>
+            (ISCOTECH ACADEMY)</p>
+        </div>
+
+        <input type="text" id="mpesaCode" placeholder="Paste M-PESA Confirmation Code Here">
+        <button class="btn" style="background:var(--mpesa); color:white;" onclick="sendToIsco()">Unlock My Report</button>
     </div>
 </div>
 
 <script>
-    function toPay() {
+    function toPayment() {
         const name = document.getElementById('name').value;
-        const grade = document.getElementById('grade').value;
-        if(!name || !grade) { alert("Please enter your details!"); return; }
+        const mean = document.getElementById('mean').value;
+        if(!name || !mean) { alert("Please enter Name and Mean Grade!"); return; }
         
-        document.getElementById('uName').innerText = name;
-        document.getElementById('inputSection').style.display = "none";
-        document.getElementById('paySection').style.display = "block";
+        document.getElementById('displayUser').innerText = name;
+        document.getElementById('formScreen').style.display = "none";
+        document.getElementById('paymentGate').style.display = "block";
+        window.scrollTo(0,0);
     }
 
-    function verify() {
-        const code = document.getElementById('mCode').value;
-        if(code.length < 10) {
-            alert("Please paste the FULL M-PESA message to verify payment.");
-            return;
-        }
+    function sendToIsco() {
+        const code = document.getElementById('mpesaCode').value;
+        if(code.length < 6) { alert("Please enter a valid M-PESA code."); return; }
 
-        document.getElementById('loading').style.display = "block";
+        // Grabbing all data to send to your WhatsApp
+        const name = document.getElementById('name').value;
+        const mean = document.getElementById('mean').value;
+        const index = document.getElementById('index').value;
+        const m = document.getElementById('mth').value;
+        const e = document.getElementById('eng').value;
+        const k = document.getElementById('kis').value;
+        const b = document.getElementById('bio').value;
+        const c = document.getElementById('chem').value;
+
+        const msg = `PREMIUM ANALYSIS REQUEST%0AName: ${name}%0AIndex: ${index}%0AGrade: ${mean}%0A---%0AMaths: ${m}, Eng: ${e}, Kis: ${k}, Bio: ${b}, Chem: ${c}%0A---%0AM-PESA CODE: ${code}`;
         
-        // Simulating a check...
-        setTimeout(() => {
-            const name = document.getElementById('name').value;
-            const grade = document.getElementById('grade').value;
-            const mpesa = document.getElementById('mCode').value;
-            
-            // This sends the data to YOU. You are the "Automatic System" for now.
-            const text = `VERIFICATION REQUEST%0A---%0AName: ${name}%0AGrade: ${grade}%0AM-PESA: ${mpesa}`;
-            window.location.href = `https://wa.me/254746939408?text=${text}`;
-        }, 2000);
+        window.location.href = `https://wa.me/254746939408?text=${msg}`;
     }
 </script>
 
