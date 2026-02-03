@@ -19,22 +19,20 @@
         #paymentScreen, #resultScreen { display: none; }
         .result-box { text-align: left; background: #fffdf0; padding: 25px; border: 2px solid var(--gold); border-radius: 15px; }
         .mpesa-card { background: #f0fff4; border: 2px dashed var(--mpesa); padding: 20px; border-radius: 15px; margin: 20px 0; text-align: center; }
-        li { margin-bottom: 8px; font-size: 0.95em; }
     </style>
 </head>
 <body>
 
 <div class="header">
     <h1>IscoTech Career AI</h1>
-    <p>Automated KCSE Subject Analysis & Placement</p>
+    <p>Instant Automated Subject Analysis</p>
 </div>
 
 <div class="container">
     <div class="card" id="inputScreen">
         <h3>1. Student Profile</h3>
         <input type="text" id="stuName" placeholder="Full Student Name">
-        <input type="text" id="index" placeholder="Index Number">
-        <select id="mean"><option value="">SELECT MEAN GRADE</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select>
+        <select id="mean"><option value="">MEAN GRADE</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select>
 
         <h4>2. Core Subjects</h4>
         <div class="subject-grid">
@@ -45,101 +43,82 @@
 
         <h4>3. Sciences & Electives</h4>
         <div class="subject-grid">
-            <select id="bio"><option value="">Biology</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>N/A</option></select>
-            <select id="phy"><option value="">Physics</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>N/A</option></select>
-            <select id="che"><option value="">Chemistry</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>N/A</option></select>
-            <select id="geo"><option value="">Geography</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>N/A</option></select>
-            <select id="com"><option value="">Computer Studies</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>N/A</option></select>
-            <select id="bus"><option value="">Business Studies</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>N/A</option></select>
-            <select id="agr"><option value="">Agriculture</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>N/A</option></select>
-            <select id="his"><option value="">History</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>N/A</option></select>
+            <select id="bio"><option value="">Biology</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select>
+            <select id="phy"><option value="">Physics</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select>
+            <select id="com"><option value="">Computer Studies</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select>
+            <select id="bus"><option value="">Business Studies</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select>
+            <select id="agr"><option value="">Agriculture</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select>
+            <select id="his"><option value="">History/Geo</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select>
         </div>
-
         <button class="btn" style="background:var(--navy); color:white;" onclick="toPayment()">Analyze Full Eligibility</button>
     </div>
 
     <div class="card" id="paymentScreen">
         <h3 style="color:red;">🔒 PAYMENT REQUIRED</h3>
-        <p>Full Analysis for <b><span id="uName"></span></b> is ready.</p>
+        <p>Your full career mapping is ready for <b><span id="uName"></span></b>.</p>
         <div class="mpesa-card">
             <p>Send <b>100/-</b> to M-PESA:<br>
             <b style="font-size:1.5em; color:var(--mpesa);">0746939408</b><br>
             (ISCOTECH ACADEMY)</p>
         </div>
-        <input type="text" id="mCode" placeholder="Enter M-PESA Confirmation Code">
+        <input type="text" id="mCode" placeholder="Enter M-PESA Code (e.g. TKB8...)">
         <button class="btn" style="background:var(--mpesa); color:white;" onclick="showResults()">Unlock & View Results Now</button>
     </div>
 
     <div class="card" id="resultScreen">
         <div class="result-box">
             <h2 id="resTitle" style="margin-top:0; color:var(--navy);"></h2>
-            <p><b>Admission Level:</b> <span id="resLevel" style="color:var(--mpesa); font-weight:bold;"></span></p>
+            <p><b>Level:</b> <span id="resLevel" style="color:var(--mpesa); font-weight:bold;"></span></p>
             <hr>
-            <p><b>Top Recommended Career Paths:</b></p>
+            <p><b>Recommended Paths:</b></p>
             <ul id="resCourses"></ul>
-            <p><b>Top Institutions to Join:</b></p>
+            <p><b>Top Institutions:</b></p>
             <p id="resSchools" style="background:#eee; padding:10px; border-radius:8px; font-size:0.9em;"></p>
-            <p><b>Future Workplaces:</b></p>
+            <p><b>Workplaces:</b></p>
             <p id="resWork" style="font-size:0.9em; color:#444;"></p>
         </div>
-        <button class="btn" style="background:var(--navy); color:white;" onclick="window.print()">Download Report (PDF)</button>
+        <button class="btn" style="background:var(--navy); color:white;" onclick="window.print()">Download Report</button>
     </div>
 </div>
 
 <script>
     function toPayment() {
         const name = document.getElementById('stuName').value;
-        const mean = document.getElementById('mean').value;
-        if(!name || !mean) { alert("Please enter Name and Mean Grade!"); return; }
+        if(!name) { alert("Please enter your name!"); return; }
         document.getElementById('uName').innerText = name;
         document.getElementById('inputScreen').style.display = "none";
         document.getElementById('paymentScreen').style.display = "block";
-        window.scrollTo(0,0);
     }
 
     function showResults() {
         const code = document.getElementById('mCode').value;
-        if(code.length < 5) { alert("Please enter a valid M-PESA code to unlock."); return; }
+        if(code.length < 5) { alert("Enter a valid M-PESA code!"); return; }
 
         const name = document.getElementById('stuName').value;
         const mean = document.getElementById('mean').value;
         const comp = document.getElementById('com').value;
-        const mat = document.getElementById('mat').value;
-        const bio = document.getElementById('bio').value;
 
         let level, courses, schools, work;
 
-        // AUTOMATED BRAIN - Subject Specific Analysis
+        // AUTOMATED CAREER LOGIC
         if(mean === "A" || mean === "B") {
-            level = "Degree (Direct University Placement)";
-            schools = "University of Nairobi, JKUAT, Kenyatta University, Maseno.";
-            work = "National Hospitals, Tech Multinationals, Engineering Firms, Government.";
-            
-            if(comp === "A" || comp === "B") {
-                courses = ["Software Engineering", "Computer Science", "Artificial Intelligence", "Cyber Security"];
-            } else if(bio === "A" || bio === "B") {
-                courses = ["Medicine & Surgery", "Pharmacy", "Biomedical Science", "Dental Surgery"];
-            } else {
-                courses = ["Law", "Bachelor of Commerce", "Economics", "Civil Engineering"];
-            }
+            level = "Degree Placement";
+            schools = "UoN, JKUAT, Kenyatta University, Maseno.";
+            work = "Government, Tech Companies, Hospitals, Law Firms.";
+            courses = (comp === "A" || comp === "B") ? ["Computer Science", "Software Engineering"] : ["Business", "Medicine", "Law"];
         } else if(mean === "C") {
-            level = "Diploma Level 6 (TVET/KMTC)";
-            schools = "Homa Bay National Poly, Mawego TTI, KMTC Homa Bay, Kenya School of TVET.";
-            work = "County Hospitals, Private Tech Firms, Construction Companies, Banks.";
-            
-            if(comp === "A" || comp === "B" || comp === "C") {
-                courses = ["Diploma in ICT", "Computer Maintenance", "Web Design Specialist", "Database Admin"];
-            } else {
-                courses = ["Diploma in Nursing", "Electrical Engineering", "Social Work", "Agribusiness"];
-            }
+            level = "Diploma Placement";
+            schools = "Homa Bay National Poly, Mawego TTI, KMTC.";
+            work = "Private Offices, Construction, County Hospitals.";
+            courses = ["ICT Diploma", "Nursing", "Electrical Eng", "Accounting"];
         } else {
-            level = "Certificate / Artisan Level";
-            courses = ["Plumbing", "Hairdressing", "Catering", "Automotive Mechanics", "Masonry"];
-            schools = "Sikri Technical, Mawego TTI, Local Youth Polytechnics.";
-            work = "Private Workshops, Hotels, Beauty Salons, Garages.";
+            level = "Certificate / Artisan";
+            schools = "Mawego TTI, Sikri Technical, Youth Polytechnics.";
+            work = "Self-employment, Garages, Hotels, Workshops.";
+            courses = ["Plumbing", "Masonry", "Catering", "Mechanics"];
         }
 
-        document.getElementById('resTitle').innerText = "Career Analysis: " + name;
+        document.getElementById('resTitle').innerText = "Report for " + name;
         document.getElementById('resLevel').innerText = level;
         document.getElementById('resSchools').innerText = schools;
         document.getElementById('resWork').innerText = work;
